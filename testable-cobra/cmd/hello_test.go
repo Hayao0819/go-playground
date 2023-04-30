@@ -10,7 +10,11 @@ func TestHelloCmd(t *testing.T) {
 	// 入出力 (io.Writer)
 	stdout := bytes.NewBuffer(nil)
 	stderr := bytes.NewBuffer(nil)
-	cmd.RunSubCmdWithIO("hello", stdout, stderr)
+	err := cmd.RunSubCmdWithIO("hello", stdout, stderr)
+
+	if err != nil {
+		t.Errorf("unexpected error: %s", err)
+	}
 
 	if stdout.String() != "Hello world!\n" {
 		t.Errorf("unexpected output: %s", stdout.String())

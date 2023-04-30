@@ -13,7 +13,10 @@ func TestNameCmd(t *testing.T) {
 	stderr := bytes.NewBuffer(nil)
 
 	// no arg
-	cmd.RunSubCmdWithIO("name", stdout, stderr)
+	err := cmd.RunSubCmdWithIO("name", stdout, stderr)
+	if err != nil {
+		t.Errorf("unexpected error: %s", err)
+	}
 	if stdout.String() != "Hello world!\njohn\n" {
 		t.Errorf("unexpected output: %s", stdout.String())
 	}
@@ -23,7 +26,10 @@ func TestNameCmd(t *testing.T) {
 	for _, name := range names {
 		stdout.Reset()
 		stderr.Reset()
-		cmd.RunSubCmdWithIO("name", stdout, stderr, "--name", name)
+		err := cmd.RunSubCmdWithIO("name", stdout, stderr, "--name", name)
+		if err != nil{
+			t.Errorf("unexpected error: %s", err)
+		}
 
 		if stdout.String() != "Hello world!\n"+name+"\n" {
 			t.Errorf("unexpected output: %s", stdout.String())
